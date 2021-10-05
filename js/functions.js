@@ -32,7 +32,10 @@ const renderMovieCard = (search = null) => {
     }
   });
   elSearchResult.textContent = '';
-  if (count > 0) {
+  if (count === 1) {
+    elSearchResult.textContent = `Found ${count} result`; // Show count of found movies according to search text
+  }
+  else if (count > 1) {
     elSearchResult.textContent = `Found ${count} results`; // Show count of found movies according to search text
   } else if (count === 0 && search !== null) {
     elSearchResult.textContent = `There are no matches`;
