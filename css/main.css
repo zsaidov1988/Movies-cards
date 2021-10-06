@@ -1,5 +1,10 @@
 body {
   background-color: rgb(230, 166, 255);
+  height: 100vh;
+}
+
+main {
+  margin-bottom: 20px;
 }
 
 .form-wrapper {
@@ -48,8 +53,11 @@ body {
   margin-left: 10px;
 }
 
+.link-page {
+  cursor: pointer;
+}
+
 .footer {
-  margin-top: 20px;
   padding-top: 50px;
   height: 150px;
   background-color: beige;

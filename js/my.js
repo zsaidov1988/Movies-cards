@@ -7,10 +7,21 @@ var elSearchInput = $_('.js-search-input', elSearchForm); // Input for search te
 var elSearchModal = $_('.js-modal', elSearchForm); // div for match elements
 var elSearchModalList = $_('.js-modal-list', elSearchForm); // ul for match elements
 var elSearchResult = $_('.search-result'); // Element p for output count of search result
-
+var elDivNavigator = $_('.js-navigator'); // Navigator for multipage
 
 var elMovieTemplate = $_('#js-movie-template').content; // Template for movie cards
 
+// Create new normalazed Array for movies array
+var normalazedMovies = movies.map(function (movie, i) {
+  return {
+    id: i,
+    title: movie.Title.toString(),
+    year: movie.movie_year,
+    categories: movie.Categories.split("|"),
+    rating: movie.imdb_rating,
+    youtubeId: movie.ytid,
+  };
+});
 
 // Function for search form
 elSearchForm.addEventListener('submit', function (e) {
@@ -18,12 +29,12 @@ elSearchForm.addEventListener('submit', function (e) {
 
   var searchText = elSearchInput.value.trim(); // Value of search input
   if (searchText !== "") {
-    renderMovieCard(searchText); // Generate some movie cards according to template with argument search text.
+    renderMovieCard(normalazedMovies, searchText); // Generate some movie cards according to template with argument search text.
   }
 
 });
 
-renderMovieCard(); // Generate all movie cards according to template
+renderMovieCard(normalazedMovies); // Generate all movie cards according to template
 elSearchModal.style.display = "none";
 
 
@@ -36,16 +47,18 @@ elSearchInput.addEventListener('input', function () {
 
   elSearchModalList.innerHTML = ''; // Clear content of additional window
 
-  // Generate Matching results in additional window
-  movies.forEach(function (movie) {
+  var searchRegEx = new RegExp(searchText, 'gi');
 
-    if (String(movie.Title).toLowerCase().includes(searchText.toLowerCase())) {
+  // Generate Matching results in additional window
+  normalazedMovies.forEach(function (movie) {
+
+    if (movie.title.match(searchRegEx)) {
 
       let itemLi = createElement('li', 'search-item', '', elSearchModalList); // Create li tag
-      createElement('a', 'search-links', String(movie.Title), itemLi); // Create a tag inside li tag with content title of movie
+      createElement('a', 'search-links', movie.title, itemLi); // Create a tag inside li tag with content title of movie
 
       itemLi.addEventListener('click', function () {
-        elSearchInput.value = String(movie.Title); // When click one of matching results, result assigned to value of search input 
+        elSearchInput.value = movie.title; // When click one of matching results, result assigned to value of search input
         elSearchInput.focus();
         elSearchModal.style.display = "none"; // hide additional window 
       });
