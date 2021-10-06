@@ -20,18 +20,23 @@ const createMovieCard = (movie) => {
 // Generate movie cards
 const renderMovieCard = (search = null) => {
   elContentDiv.innerHTML = ''; // Clear content of wrapper div for cards
+  let fragment = document.createDocumentFragment();
   let count = 0; // Counter for search results
   elSearchModal.style.display = "none"; // Hide additional window for matching search results
+
   movies.forEach(function (movie) { // Loop for movies array
+
     if (search === null || search === "") { // Show all movies
-      elContentDiv.appendChild(createMovieCard(movie));
-    }
-    else if (String(movie.Title).toLowerCase().includes(search.toLowerCase()) || movie["Categories"].toLowerCase().includes(search.toLowerCase())) {
-      elContentDiv.appendChild(createMovieCard(movie)); // Show searched movies
+      fragment.appendChild(createMovieCard(movie));
+    } else if (String(movie.Title).toLowerCase().includes(search.toLowerCase()) || movie["Categories"].toLowerCase().includes(search.toLowerCase())) {
+      fragment.appendChild(createMovieCard(movie)); // Show searched movies
       count++;
     }
   });
+
+  elContentDiv.appendChild(fragment);
   elSearchResult.textContent = '';
+
   if (count === 1) {
     elSearchResult.textContent = `Found ${count} result`; // Show count of found movies according to search text
   }
@@ -40,5 +45,6 @@ const renderMovieCard = (search = null) => {
   } else if (count === 0 && search !== null) {
     elSearchResult.textContent = `There are no matches`;
   }
+
 };
 
