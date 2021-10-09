@@ -26,12 +26,17 @@ const renderMovieCard = (moviesArr, search = null, page = 0, count = 0) => {
 
   if (search !== null && search !== "") { // Search input has some value
     let searchRegEx = new RegExp(search, 'gi'); // Create RegExp for search text
-    moviesArr.forEach(function (movie) {
+    readyMoviesArr = moviesArr.filter(function (movie) {
+      return (movie.title.match(searchRegEx) || movie.categories.join(" ").match(searchRegEx))
+    });
+
+    count = readyMoviesArr.length;
+    /* moviesArr.forEach(function (movie) {
       if (movie.title.match(searchRegEx) || movie.categories.join(" ").match(searchRegEx)) {
         count++;
         readyMoviesArr.push(movie); // Add searched movie to new array
       }
-    });
+    }); */
   } else {
     readyMoviesArr = moviesArr; // Add all movie to new array
   }
