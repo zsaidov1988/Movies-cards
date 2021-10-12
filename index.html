@@ -32,13 +32,20 @@
             </div>
 
           </div>
-
+          <select class="form-select js-sort-select" aria-label="Default select example">
+            <option selected value="0">ID bo`yicha</option>
+            <option value="1">Alifbo bo`yicha A-Z</option>
+            <option value="2">Alifbo bo`yicha Z-A</option>
+            <option value="3">Yili bo`yicha (yangilari)</option>
+            <option value="4">Yili bo`yicha (eskilari)</option>
+            <option value="5">Reyting bo`yicha (yuqori)</option>
+            <option value="6">Reyting bo`yicha (past)</option>
+          </select>
           <button type="submit" class="d-none">Submit</button>
         </form>
 
+        <p class="search-result"></p>
       </div>
-
-      <p class="search-result"></p>
 
     </div><!-- container -->
   </header>
@@ -75,7 +82,6 @@
       </div>
 
   </template>
-
 
   <script src="./bootstrap/js/bootstrap.min.js"></script>
   <script src="./js/util.js"></script>

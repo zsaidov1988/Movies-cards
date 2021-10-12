@@ -6,7 +6,7 @@ const createMovieCard = (movie) => {
   let elCloneMovieTemplate = elMovieTemplate.cloneNode(true); // Clone template content to new variable
 
   // Edit some values of clone of template.
-  elCloneMovieTemplate.querySelector('.js-movie-img').src = "https://via.placeholder.com/150x100";
+  elCloneMovieTemplate.querySelector('.js-movie-img').src = movie.imgUrl;
   elCloneMovieTemplate.querySelector('.js-movie-img').alt = movie.title;
   elCloneMovieTemplate.querySelector('.js-movie-title').textContent = (movie.id + 1) + ". " + movie.title;
   elCloneMovieTemplate.querySelector('.year-span').textContent = movie.year;
@@ -71,6 +71,32 @@ const renderMovieCard = (moviesArr, search = null, page = 0, count = 0) => {
       });
     }
   }
-
 }; // END renderMovieCard()
+
+const sortMovies = (sortType) => {
+  let sortedArray = normalazedMovies.slice();
+  switch (sortType) {
+    case 0:
+      break;
+    case 1:
+      sortedArray.sort((a, b) => a.title > b.title && 1 || -1);
+      break;
+    case 2:
+      sortedArray.sort((a, b) => a.title < b.title && 1 || -1);
+      break;
+    case 3:
+      sortedArray.sort((a, b) => b.year - a.year);
+      break;
+    case 4:
+      sortedArray.sort((a, b) => a.year - b.year);
+      break;
+    case 5:
+      sortedArray.sort((a, b) => b.rating - a.rating);
+      break;
+    case 6:
+      sortedArray.sort((a, b) => a.rating - b.rating);
+      break;
+  }
+  return sortedArray;
+};
 

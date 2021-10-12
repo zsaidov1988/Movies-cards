@@ -8,6 +8,7 @@ var elSearchModal = $_('.js-modal', elSearchForm); // div for match elements
 var elSearchModalList = $_('.js-modal-list', elSearchForm); // ul for match elements
 var elSearchResult = $_('.search-result'); // Element p for output count of search result
 var elDivNavigator = $_('.js-navigator'); // Navigator for multipage
+var alSOrtSelect = $_(".js-sort-select"); // Select for sort movies
 
 var elMovieTemplate = $_('#js-movie-template').content; // Template for movie cards
 
@@ -18,6 +19,7 @@ var normalazedMovies = movies.map(function (movie, i) {
     title: movie.Title.toString(),
     year: movie.movie_year,
     categories: movie.Categories.split("|"),
+    imgUrl: `http://i3.ytimg.com/vi/${movie.ytid}/hqdefault.jpg`,
     rating: movie.imdb_rating,
     youtubeId: movie.ytid,
   };
@@ -29,7 +31,7 @@ elSearchForm.addEventListener('submit', function (e) {
 
   var searchText = elSearchInput.value.trim(); // Value of search input
   if (searchText !== "") {
-    renderMovieCard(normalazedMovies, searchText); // Generate some movie cards according to template with argument search text.
+    renderMovieCard(sortMovies(parseInt(alSOrtSelect.value, 10)), searchText); // Generate some movie cards according to template with argument search text.
   }
 
 });
@@ -37,16 +39,11 @@ elSearchForm.addEventListener('submit', function (e) {
 renderMovieCard(normalazedMovies); // Generate all movie cards according to template
 elSearchModal.style.display = "none";
 
-
 // Function for search input. Event: oninput
 elSearchInput.addEventListener('input', function () {
-
   var searchText = elSearchInput.value.trim(); // Value of search input
-
   elSearchModal.style.display = (searchText.length > 1) ? "block" : "none"; // Show or hide additional window for showing matching results
-
   elSearchModalList.innerHTML = ''; // Clear content of additional window
-
   var searchRegEx = new RegExp(searchText, 'gi');
 
   // Generate Matching results in additional window
@@ -70,3 +67,9 @@ elSearchInput.addEventListener('input', function () {
   }
 
 });
+
+alSOrtSelect.addEventListener('change', function () {
+  var searchText = elSearchInput.value.trim() || null; // Value of search input
+  let sortType = parseInt(this.value, 10);
+  renderMovieCard(sortMovies(sortType), searchText);
+})
