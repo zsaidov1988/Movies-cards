@@ -7,11 +7,6 @@ main {
   margin-bottom: 20px;
 }
 
-.form-wrapper {
-  width: 95%;
-  max-width: 400px;
-}
-
 .input-wrapper {
   position: relative;
 }

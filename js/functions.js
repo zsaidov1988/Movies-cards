@@ -18,30 +18,47 @@ const createMovieCard = (movie) => {
 };
 
 // Generate movie cards
-const renderMovieCard = (moviesArr, search = null, page = 0, count = 0) => {
+const renderMovieCard = (moviesArr, page = 0) => {
   elContentDiv.innerHTML = ''; // Clear content of wrapper div for cards
   let fragment = document.createDocumentFragment();
   elSearchModal.style.display = "none"; // Hide additional window for matching search results
   let readyMoviesArr = []; // Array for movies 
-
+  let search = elSearchInput.value.trim(); // Text in search input
+  console.log(search);
+  // Search movies
   if (search !== null && search !== "") { // Search input has some value
     let searchRegEx = new RegExp(search, 'gi'); // Create RegExp for search text
     readyMoviesArr = moviesArr.filter(function (movie) {
-      return (movie.title.match(searchRegEx) || movie.categories.join(" ").match(searchRegEx))
+      return (movie.title.match(searchRegEx))
     });
-
-    count = readyMoviesArr.length;
-    /* moviesArr.forEach(function (movie) {
-      if (movie.title.match(searchRegEx) || movie.categories.join(" ").match(searchRegEx)) {
-        count++;
-        readyMoviesArr.push(movie); // Add searched movie to new array
-      }
-    }); */
   } else {
     readyMoviesArr = moviesArr; // Add all movie to new array
   }
 
-  let moviesOnPage = readyMoviesArr.slice(page * 24, page * 24 + 24); // Split array to pages
+  // Group by category
+  if (elCategorySelect.value !== "all") {
+    let searchRegExCategory = new RegExp(elCategorySelect.value, 'gi'); // Create RegExp for category
+    readyMoviesArr = readyMoviesArr.filter(function (movie) {
+      return (movie.categories.join(" ").match(searchRegExCategory))
+    });
+  }
+
+  // Rating Limit
+  if (elInputRating.value !== "" && !isNaN(parseFloat(elInputRating.value))) {
+    let ratingBorder = parseFloat(elInputRating.value); // Min rating value
+    readyMoviesArr = readyMoviesArr.filter(function (movie) {
+      return (movie.rating >= ratingBorder);
+    });
+  }
+
+  // Sort Array According to sort select
+  let sortType = parseInt(elSortSelect.value, 10);
+  if (sortType > 0) {
+    readyMoviesArr = sortMovies(readyMoviesArr, sortType);
+  }
+
+  // Split array to pages
+  let moviesOnPage = readyMoviesArr.slice(page * 24, page * 24 + 24);
 
   moviesOnPage.forEach(function (movie) { // Add splitted array to HTML document
     fragment.appendChild(createMovieCard(movie));
@@ -49,7 +66,7 @@ const renderMovieCard = (moviesArr, search = null, page = 0, count = 0) => {
 
   elContentDiv.appendChild(fragment);
   elSearchResult.textContent = '';
-
+  let count = readyMoviesArr.length;
   if (count > 0) {
     elSearchResult.textContent = `Found ${count} results`; // Show count of found movies according to search text
 
@@ -67,14 +84,13 @@ const renderMovieCard = (moviesArr, search = null, page = 0, count = 0) => {
       var pageLink = createElement("a", "mx-1 link-page", i + 1, elDivNavigator); // Add a tag to page navigator
       pageLink.value = i; // Set value for a tag
       pageLink.addEventListener('click', function () {
-        renderMovieCard(readyMoviesArr, null, this.value, count); // Generate link to according page
+        renderMovieCard(readyMoviesArr, this.value); // Generate link to according page
       });
     }
   }
 }; // END renderMovieCard()
 
-const sortMovies = (sortType) => {
-  let sortedArray = normalazedMovies.slice();
+const sortMovies = (sortedArray, sortType) => {
   switch (sortType) {
     case 0:
       break;

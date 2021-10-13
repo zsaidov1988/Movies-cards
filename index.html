@@ -18,34 +18,43 @@
         tempore! Voluptatem, sed
       </p>
 
-      <div class="form-wrapper mx-auto">
+      <form class="js-search-form" method="POST">
+        <div class="row">
 
-        <form class="js-search-form" method="POST">
+          <div class="col col-12 col-md-6">
+            <div class="mb-3 input-wrapper">
+              <input class="form-control js-search-input" type="search" placeholder="Search">
+              <div class="js-modal">
+                <ul class="list-unstyled js-modal-list">
 
-          <div class="mb-3 input-wrapper">
-            <input class="form-control js-search-input" type="search" placeholder="Search">
-
-            <div class="js-modal">
-              <ul class="list-unstyled js-modal-list">
-
-              </ul>
+                </ul>
+              </div>
             </div>
-
+            <select class="form-select js-sort-select" aria-label="Sort select">
+              <option selected value="0">ID bo`yicha</option>
+              <option value="1">Alifbo bo`yicha A-Z</option>
+              <option value="2">Alifbo bo`yicha Z-A</option>
+              <option value="3">Yili bo`yicha (yangilari)</option>
+              <option value="4">Yili bo`yicha (eskilari)</option>
+              <option value="5">Reyting bo`yicha (yuqori)</option>
+              <option value="6">Reyting bo`yicha (past)</option>
+            </select>
           </div>
-          <select class="form-select js-sort-select" aria-label="Default select example">
-            <option selected value="0">ID bo`yicha</option>
-            <option value="1">Alifbo bo`yicha A-Z</option>
-            <option value="2">Alifbo bo`yicha Z-A</option>
-            <option value="3">Yili bo`yicha (yangilari)</option>
-            <option value="4">Yili bo`yicha (eskilari)</option>
-            <option value="5">Reyting bo`yicha (yuqori)</option>
-            <option value="6">Reyting bo`yicha (past)</option>
-          </select>
-          <button type="submit" class="d-none">Submit</button>
-        </form>
 
-        <p class="search-result"></p>
-      </div>
+          <div class="col col-12 col-md-6 mt-4 mt-md-0">
+            <div class="mb-3 input-wrapper">
+              <input class="form-control js-rating-input" type="text" placeholder="Input min rating">
+            </div>
+            <select class="form-select js-categories-select" aria-label="Category select">
+              <option selected value="all">All categories</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="d-none">Submit</button>
+      </form>
+
+      <p class="search-result"></p>
 
     </div><!-- container -->
   </header>
