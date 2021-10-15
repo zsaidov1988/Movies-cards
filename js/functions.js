@@ -8,7 +8,12 @@ const createMovieCard = (movie) => {
   // Edit some values of clone of template.
   elCloneMovieTemplate.querySelector('.js-movie-img').src = movie.imgUrl;
   elCloneMovieTemplate.querySelector('.js-movie-img').alt = movie.title;
-  elCloneMovieTemplate.querySelector('.js-movie-title').textContent = (movie.id + 1) + ". " + movie.title;
+  let movieTitle = movie.title;
+  if (elSearchInput.value !== null && elSearchInput.value !== "") {
+    let search = elSearchInput.value.trim();
+    movieTitle = movieTitle.replace(search, `<mark class="own-mark">${search}</mark>`);
+  }
+  elCloneMovieTemplate.querySelector('.js-movie-title').innerHTML = (movie.id + 1) + ". " + movieTitle;
   elCloneMovieTemplate.querySelector('.year-span').textContent = movie.year;
   elCloneMovieTemplate.querySelector('.category-span').textContent = movie.categories.join(", ");
   elCloneMovieTemplate.querySelector('.rating-span').textContent = movie.rating;
@@ -24,7 +29,7 @@ const renderMovieCard = (moviesArr, page = 0) => {
   elSearchModal.style.display = "none"; // Hide additional window for matching search results
   let readyMoviesArr = []; // Array for movies 
   let search = elSearchInput.value.trim(); // Text in search input
-  console.log(search);
+
   // Search movies
   if (search !== null && search !== "") { // Search input has some value
     let searchRegEx = new RegExp(search, 'gi'); // Create RegExp for search text
