@@ -1,3 +1,8 @@
+// =============== CONST VARIABLES ===========================
+
+const countCardsPerPage = 12;
+
+
 
 // =============== Calling HTML elements ========================
 
@@ -11,6 +16,8 @@ const elInputRating = $_(".js-rating-input", elSearchForm); // Input for rating
 const elCategorySelect = $_(".js-categories-select", elSearchForm); // Select for category
 const elSearchResult = $_('.search-result'); // Element p for output count of search result
 const elDivNavigator = $_('.js-navigator'); // Navigator for multipage
+const elModalTitleHeading = $_(".js-modal-title"); // h5 title of modal window
+const elModalBody = $_(".js-modal-body"); // div body of modal window
 
 const elMovieTemplate = $_('#js-movie-template').content; // Template for movie cards
 
@@ -38,7 +45,7 @@ normalazedMovies.forEach((movie) => {
     if (!movieCategories.includes(category)) {
       movieCategories.push(category);
     }
-  })
+  });
 });
 movieCategories.sort();
 
@@ -46,7 +53,7 @@ let documentFragment = document.createDocumentFragment();
 movieCategories.forEach((category) => {
   let newOptionElement = createElement('option', '', category, documentFragment);
   newOptionElement.value = category.toLowerCase();
-})
+});
 
 elCategorySelect.appendChild(documentFragment);
 
@@ -100,9 +107,19 @@ elSortSelect.addEventListener('change', () => {
 //Event for Category select
 elCategorySelect.addEventListener("change", () => {
   renderMovieCard(normalazedMovies);
-})
+});
 
 //Event for Rating Limit
 elInputRating.addEventListener("change", () => {
   renderMovieCard(normalazedMovies);
-})
+});
+
+// Event for buttons more and bookmark
+elContentDiv.addEventListener("click", (e) => {
+  if (e.target.className === 'btn btn-info js-more-btn') {
+    elModalTitleHeading.value = e.target.value;
+  }
+  if (e.target.className === 'btn btn-primary js-bookmark-btn') {
+    console.log(e.target.value);
+  }
+});

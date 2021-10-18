@@ -6,18 +6,23 @@ const createMovieCard = (movie) => {
   let elCloneMovieTemplate = elMovieTemplate.cloneNode(true); // Clone template content to new variable
 
   // Edit some values of clone of template.
-  elCloneMovieTemplate.querySelector('.js-movie-img').src = movie.imgUrl;
-  elCloneMovieTemplate.querySelector('.js-movie-img').alt = movie.title;
+  $_('.js-movie-img', elCloneMovieTemplate).src = movie.imgUrl;
+  $_('.js-movie-img', elCloneMovieTemplate).alt = movie.title;
   let movieTitle = movie.title;
-  if (elSearchInput.value !== null && elSearchInput.value !== "") {
-    let search = elSearchInput.value.trim();
-    movieTitle = movieTitle.replace(search, `<mark class="own-mark">${search}</mark>`);
+  if (elSearchInput.value.trim() !== null && elSearchInput.value.trim() !== "") {
+    let search = new RegExp(elSearchInput.value.trim(), 'gi');
+    movieTitle = movieTitle.replace(search, `<mark class="own-mark">${movieTitle.match(search)}</mark>`);
   }
-  elCloneMovieTemplate.querySelector('.js-movie-title').innerHTML = (movie.id + 1) + ". " + movieTitle;
-  elCloneMovieTemplate.querySelector('.year-span').textContent = movie.year;
-  elCloneMovieTemplate.querySelector('.category-span').textContent = movie.categories.join(", ");
-  elCloneMovieTemplate.querySelector('.rating-span').textContent = movie.rating;
-  elCloneMovieTemplate.querySelector('.js-link-movie').href = `https://www.youtube.com/watch?v=${movie.youtubeId}`;
+  $_('.js-movie-title', elCloneMovieTemplate).innerHTML = (movie.id + 1) + ". " + movieTitle;
+  $_('.year-span', elCloneMovieTemplate).textContent = movie.year;
+  $_('.category-span', elCloneMovieTemplate).textContent = movie.categories.join(", ");
+  $_('.rating-span', elCloneMovieTemplate).textContent = movie.rating;
+  $_('.js-link-movie', elCloneMovieTemplate).href = `https://www.youtube.com/watch?v=${movie.youtubeId}`;
+  $_('.js-more-btn', elCloneMovieTemplate).value = movie.id;
+  $_('.js-more-btn', elCloneMovieTemplate).addEventListener("click", (e) => {
+    elModalTitleHeading.value = this.value;
+  })
+  $_('.js-bookmark-btn', elCloneMovieTemplate).value = movie.id;
 
   return elCloneMovieTemplate; // Return edited clone element
 };
@@ -63,7 +68,7 @@ const renderMovieCard = (moviesArr, page = 0) => {
   }
 
   // Split array to pages
-  let moviesOnPage = readyMoviesArr.slice(page * 24, page * 24 + 24);
+  let moviesOnPage = readyMoviesArr.slice(page * countCardsPerPage, page * countCardsPerPage + countCardsPerPage);
 
   moviesOnPage.forEach(function (movie) { // Add splitted array to HTML document
     fragment.appendChild(createMovieCard(movie));
@@ -82,7 +87,7 @@ const renderMovieCard = (moviesArr, page = 0) => {
   // Create page navigator elements
   elDivNavigator.innerHTML = ''; // Clear old datas
 
-  var countPages = Math.ceil(readyMoviesArr.length / 24); // Calculate count of pages
+  var countPages = Math.ceil(readyMoviesArr.length / countCardsPerPage); // Calculate count of pages
 
   if (countPages > 1) {
     for (var i = 0; i < countPages; i++) {
