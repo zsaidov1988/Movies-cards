@@ -3,7 +3,7 @@
 
 // Create card for movie according to template
 const createMovieCard = (movie) => {
-  let elCloneMovieTemplate = elMovieTemplate.cloneNode(true); // Clone template content to new variable
+  const elCloneMovieTemplate = elMovieTemplate.cloneNode(true); // Clone template content to new variable
 
   // Edit some values of clone of template.
   $_('.js-movie-img', elCloneMovieTemplate).src = movie.imgUrl;
@@ -30,14 +30,14 @@ const createMovieCard = (movie) => {
 // Generate movie cards
 const renderMovieCard = (moviesArr, page = 0) => {
   elContentDiv.innerHTML = ''; // Clear content of wrapper div for cards
-  let fragment = document.createDocumentFragment();
+  const fragment = document.createDocumentFragment();
   elSearchModal.style.display = "none"; // Hide additional window for matching search results
   let readyMoviesArr = []; // Array for movies 
-  let search = elSearchInput.value.trim(); // Text in search input
+  const search = elSearchInput.value.trim(); // Text in search input
 
   // Search movies
   if (search !== null && search !== "") { // Search input has some value
-    let searchRegEx = new RegExp(search, 'gi'); // Create RegExp for search text
+    const searchRegEx = new RegExp(search, 'gi'); // Create RegExp for search text
     readyMoviesArr = moviesArr.filter(function (movie) {
       return (movie.title.match(searchRegEx))
     });
@@ -47,7 +47,7 @@ const renderMovieCard = (moviesArr, page = 0) => {
 
   // Group by category
   if (elCategorySelect.value !== "all") {
-    let searchRegExCategory = new RegExp(elCategorySelect.value, 'gi'); // Create RegExp for category
+    const searchRegExCategory = new RegExp(elCategorySelect.value, 'gi'); // Create RegExp for category
     readyMoviesArr = readyMoviesArr.filter(function (movie) {
       return (movie.categories.join(" ").match(searchRegExCategory))
     });
@@ -55,20 +55,20 @@ const renderMovieCard = (moviesArr, page = 0) => {
 
   // Rating Limit
   if (elInputRating.value !== "" && !isNaN(parseFloat(elInputRating.value))) {
-    let ratingBorder = parseFloat(elInputRating.value); // Min rating value
+    const ratingBorder = parseFloat(elInputRating.value); // Min rating value
     readyMoviesArr = readyMoviesArr.filter(function (movie) {
       return (movie.rating >= ratingBorder);
     });
   }
 
   // Sort Array According to sort select
-  let sortType = parseInt(elSortSelect.value, 10);
+  const sortType = parseInt(elSortSelect.value, 10);
   if (sortType > 0) {
     readyMoviesArr = sortMovies(readyMoviesArr, sortType);
   }
 
   // Split array to pages
-  let moviesOnPage = readyMoviesArr.slice(page * countCardsPerPage, page * countCardsPerPage + countCardsPerPage);
+  const moviesOnPage = readyMoviesArr.slice(page * countCardsPerPage, page * countCardsPerPage + countCardsPerPage);
 
   moviesOnPage.forEach(function (movie) { // Add splitted array to HTML document
     fragment.appendChild(createMovieCard(movie));
@@ -76,7 +76,7 @@ const renderMovieCard = (moviesArr, page = 0) => {
 
   elContentDiv.appendChild(fragment);
   elSearchResult.textContent = '';
-  let count = readyMoviesArr.length;
+  const count = readyMoviesArr.length;
   if (count > 0) {
     elSearchResult.textContent = `Found ${count} results`; // Show count of found movies according to search text
 
@@ -87,11 +87,11 @@ const renderMovieCard = (moviesArr, page = 0) => {
   // Create page navigator elements
   elDivNavigator.innerHTML = ''; // Clear old datas
 
-  var countPages = Math.ceil(readyMoviesArr.length / countCardsPerPage); // Calculate count of pages
+  const countPages = Math.ceil(readyMoviesArr.length / countCardsPerPage); // Calculate count of pages
 
   if (countPages > 1) {
-    for (var i = 0; i < countPages; i++) {
-      var pageLink = createElement("a", "mx-1 link-page", i + 1, elDivNavigator); // Add a tag to page navigator
+    for (let i = 0; i < countPages; i++) {
+      const pageLink = createElement("a", "mx-1 link-page", i + 1, elDivNavigator); // Add a tag to page navigator
       pageLink.value = i; // Set value for a tag
       pageLink.addEventListener('click', function () {
         renderMovieCard(readyMoviesArr, this.value); // Generate link to according page
@@ -100,6 +100,7 @@ const renderMovieCard = (moviesArr, page = 0) => {
   }
 }; // END renderMovieCard()
 
+// Function for sort movies
 const sortMovies = (sortedArray, sortType) => {
   switch (sortType) {
     case 0:
@@ -124,5 +125,27 @@ const sortMovies = (sortedArray, sortType) => {
       break;
   }
   return sortedArray;
+};
+// END sortMovies
+
+const updateBookmarkList = () => {
+  elBookmarkList.innerHTML = "";
+  let localDatas = (localStorage.getItem("moviesId")) ? localStorage.getItem("moviesId").split(",") : [];
+  if (localDatas.length > 0) {
+    elBookmarkSection.classList.add("d-block");
+    elBookmarkSection.classList.remove("d-none");
+    localDatas.forEach((data) => {
+      const itemLi = createElement("li", "mb-2 pb-2 border-bottom border-primary", "", elBookmarkList);
+      const itemLink = createElement("a", "mx-4", normalazedMovies[parseInt(data)].title, itemLi);
+      itemLink.href = `https://www.youtube.com/watch?v=${normalazedMovies[parseInt(data)].youtubeId}`;
+      itemLink.setAttribute("target", "blank");
+      const itemButton = createElement("button", "btn btn-danger", "Delete", itemLi);
+      itemButton.value = normalazedMovies[parseInt(data)].id;
+    });
+  } else {
+    elBookmarkSection.classList.add("d-none");
+    elBookmarkSection.classList.remove("d-block");
+  }
+
 };
 

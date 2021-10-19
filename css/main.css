@@ -1,10 +1,14 @@
 body {
-  background-color: rgb(230, 166, 255);
+  background-color: rgb(149, 255, 241);
   height: 100vh;
 }
 
 main {
   margin-bottom: 20px;
+}
+
+.bookmark-section {
+  background-color: #fff;
 }
 
 .input-wrapper {
@@ -55,6 +59,8 @@ main {
 
 .js-movie-img {
   object-fit: cover;
+  width: 100%;
+  height: 200px;
 }
 
 .own-mark {

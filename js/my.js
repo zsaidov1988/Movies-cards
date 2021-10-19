@@ -2,8 +2,6 @@
 
 const countCardsPerPage = 12;
 
-
-
 // =============== Calling HTML elements ========================
 
 const elContentDiv = $_('.js-content-div'); // Wrapper for card divs
@@ -18,6 +16,9 @@ const elSearchResult = $_('.search-result'); // Element p for output count of se
 const elDivNavigator = $_('.js-navigator'); // Navigator for multipage
 const elModalTitleHeading = $_(".js-modal-title"); // h5 title of modal window
 const elModalBody = $_(".js-modal-body"); // div body of modal window
+const elBookmarkList = $_(".js-bookmark-list"); // ul tag for bookmark list
+const elBookmarkClearButton = $_(".js-clear-bookmark-button"); // Button clear for bookmark
+const elBookmarkSection = $_(".js-section-bookmark");
 
 const elMovieTemplate = $_('#js-movie-template').content; // Template for movie cards
 
@@ -34,6 +35,7 @@ let normalazedMovies = movies.map((movie, i) => {
   };
 });
 
+updateBookmarkList(); // Create Bookmark list
 renderMovieCard(normalazedMovies); // Generate all movie cards according to template
 elSearchModal.style.display = "none";
 
@@ -49,9 +51,9 @@ normalazedMovies.forEach((movie) => {
 });
 movieCategories.sort();
 
-let documentFragment = document.createDocumentFragment();
+const documentFragment = document.createDocumentFragment();
 movieCategories.forEach((category) => {
-  let newOptionElement = createElement('option', '', category, documentFragment);
+  const newOptionElement = createElement('option', '', category, documentFragment);
   newOptionElement.value = category.toLowerCase();
 });
 
@@ -66,7 +68,7 @@ elCategorySelect.appendChild(documentFragment);
 elSearchForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  let searchText = elSearchInput.value.trim(); // Value of search input
+  const searchText = elSearchInput.value.trim(); // Value of search input
   if (searchText !== "") {
     renderMovieCard(normalazedMovies); // Generate some movie cards according to template with argument search text.
   }
@@ -74,17 +76,17 @@ elSearchForm.addEventListener('submit', (e) => {
 
 // Function for search input. Event: oninput
 elSearchInput.addEventListener('input', () => {
-  let searchText = elSearchInput.value.trim(); // Value of search input
+  const searchText = elSearchInput.value.trim(); // Value of search input
   elSearchModal.style.display = (searchText.length > 1) ? "block" : "none"; // Show or hide additional window for showing matching results
   elSearchModalList.innerHTML = ''; // Clear content of additional window
-  let searchRegEx = new RegExp(searchText, 'gi');
+  const searchRegEx = new RegExp(searchText, 'gi');
 
   // Generate Matching results in additional window
   normalazedMovies.forEach((movie) => {
 
     if (movie.title.match(searchRegEx)) {
 
-      let itemLi = createElement('li', 'search-item', '', elSearchModalList); // Create li tag
+      const itemLi = createElement('li', 'search-item', '', elSearchModalList); // Create li tag
       createElement('a', 'search-links', movie.title, itemLi); // Create a tag inside li tag with content title of movie
 
       itemLi.addEventListener('click', () => {
@@ -116,10 +118,36 @@ elInputRating.addEventListener("change", () => {
 
 // Event for buttons more and bookmark
 elContentDiv.addEventListener("click", (e) => {
+  let targetValue = e.target.value;
   if (e.target.className === 'btn btn-info js-more-btn') {
-    elModalTitleHeading.value = e.target.value;
+    elModalTitleHeading.value = targetValue;
   }
   if (e.target.className === 'btn btn-primary js-bookmark-btn') {
-    console.log(e.target.value);
+    let localDatas = (localStorage.getItem("moviesId")) ? localStorage.getItem("moviesId").split(",") : [];
+    if (localDatas.includes(targetValue)) {
+      alert("This movie is already exists in bookmark!")
+    } else {
+      localDatas.push(targetValue);
+      localStorage.setItem("moviesId", localDatas.join(","));
+      updateBookmarkList();
+      alert("Movie has been added into bookmark succesfully!")
+    }
   }
 });
+
+elBookmarkClearButton.addEventListener("click", () => {
+  if (confirm("Are you sure?")) {
+    localStorage.clear();
+    updateBookmarkList();
+  }
+})
+
+elBookmarkList.addEventListener("click", (e) => {
+  if (e.target.className === "btn btn-danger") {
+    const targetValue = e.target.value;
+    let localDatas = localStorage.getItem("moviesId").split(",");
+    localDatas.splice(localDatas.indexOf(targetValue), 1);
+    localStorage.setItem("moviesId", localDatas.join(","));
+    updateBookmarkList();
+  }
+})

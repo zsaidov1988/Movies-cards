@@ -17,59 +17,67 @@
       <p class="text-center">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laborum ut non quia at rerum
         tempore! Voluptatem, sed
       </p>
-
-      <form class="js-search-form" method="POST">
-        <div class="row">
-
-          <div class="col col-12 col-md-6">
-            <div class="mb-3 input-wrapper">
-              <input class="form-control js-search-input" type="search" placeholder="Search">
-              <div class="js-modal">
-                <ul class="list-unstyled js-modal-list">
-
-                </ul>
-              </div>
-            </div>
-            <select class="form-select js-sort-select" aria-label="Sort select">
-              <option selected value="0">ID bo`yicha</option>
-              <option value="1">Alifbo bo`yicha A-Z</option>
-              <option value="2">Alifbo bo`yicha Z-A</option>
-              <option value="3">Yili bo`yicha (yangilari)</option>
-              <option value="4">Yili bo`yicha (eskilari)</option>
-              <option value="5">Reyting bo`yicha (yuqori)</option>
-              <option value="6">Reyting bo`yicha (past)</option>
-            </select>
-          </div>
-
-          <div class="col col-12 col-md-6 mt-4 mt-md-0">
-            <div class="mb-3 input-wrapper">
-              <input class="form-control js-rating-input" type="text" placeholder="Input min rating">
-            </div>
-            <select class="form-select js-categories-select" aria-label="Category select">
-              <option selected value="all">All categories</option>
-            </select>
-          </div>
-        </div>
-
-        <button type="submit" class="d-none">Submit</button>
-      </form>
-
-      <p class="search-result"></p>
-
     </div><!-- container -->
   </header>
 
   <main>
+    <section class="bookmark-section pt-3 pb-3 mb-4 js-section-bookmark">
+      <div class="container">
+        <div class="">
+          <h2 class="text-center mb-3">Bookmark</h2>
+          <ul class="list-unstyled js-bookmark-list"></ul>
+          <button type="button" class="btn btn-danger js-clear-bookmark-button">Clear All Bookmark</button>
+        </div>
+      </div><!-- container -->
+    </section><!-- bookmark-section -->
+
+    <section class="form-section">
+      <div class="container">
+        <form class="js-search-form" method="POST">
+          <div class="row">
+
+            <div class="col col-12 col-md-6">
+              <div class="mb-3 input-wrapper">
+                <input class="form-control js-search-input" type="search" placeholder="Search">
+                <div class="js-modal">
+                  <ul class="list-unstyled js-modal-list">
+
+                  </ul>
+                </div>
+              </div>
+              <select class="form-select js-sort-select" aria-label="Sort select">
+                <option selected value="0">ID bo`yicha</option>
+                <option value="1">Alifbo bo`yicha A-Z</option>
+                <option value="2">Alifbo bo`yicha Z-A</option>
+                <option value="3">Yili bo`yicha (yangilari)</option>
+                <option value="4">Yili bo`yicha (eskilari)</option>
+                <option value="5">Reyting bo`yicha (yuqori)</option>
+                <option value="6">Reyting bo`yicha (past)</option>
+              </select>
+            </div>
+
+            <div class="col col-12 col-md-6 mt-4 mt-md-0">
+              <div class="mb-3 input-wrapper">
+                <input class="form-control js-rating-input" type="text" placeholder="Input min rating">
+              </div>
+              <select class="form-select js-categories-select" aria-label="Category select">
+                <option selected value="all">All categories</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="d-none">Submit</button>
+        </form>
+
+        <p class="search-result"></p>
+      </div>
+    </section>
+
     <div class="container">
-
-      <div class="d-flex align-items-stretch justify-content-center flex-wrap js-content-div">
-
-      </div>
-      <div class="d-flex align-items-stretch justify-content-center flex-wrap mb-4 js-navigator">
-
-      </div>
-
+      <div class="d-flex align-items-stretch justify-content-center flex-wrap js-content-div"></div>
+      <div class="d-flex align-items-stretch justify-content-center flex-wrap mb-4 js-navigator"></div>
     </div><!-- container -->
+
   </main>
 
   <!-- Modal Window -->
@@ -101,7 +109,7 @@
 
   <template id="js-movie-template">
     <div class="card mx-2 mb-3" style="width: 18rem;">
-      <img class="card-img-top js-movie-img" src="https://via.placeholder.com/150x100" alt="...">
+      <img class="card-img-top js-movie-img" src="" alt="...">
 
       <div class="card-body">
         <h5 class="card-title js-movie-title text-primary">Card title</h5>
