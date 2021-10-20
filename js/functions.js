@@ -4,6 +4,7 @@
 // Create card for movie according to template
 const createMovieCard = (movie) => {
   const elCloneMovieTemplate = elMovieTemplate.cloneNode(true); // Clone template content to new variable
+  const elCloneModalTemplate = elModalTemplate.cloneNode(true); // Clone modal template content to new variable
 
   // Edit some values of clone of template.
   $_('.js-movie-img', elCloneMovieTemplate).src = movie.imgUrl;
@@ -17,12 +18,19 @@ const createMovieCard = (movie) => {
   $_('.year-span', elCloneMovieTemplate).textContent = movie.year;
   $_('.category-span', elCloneMovieTemplate).textContent = movie.categories.join(", ");
   $_('.rating-span', elCloneMovieTemplate).textContent = movie.rating;
+
+  // Buttons
   $_('.js-link-movie', elCloneMovieTemplate).href = `https://www.youtube.com/watch?v=${movie.youtubeId}`;
-  $_('.js-more-btn', elCloneMovieTemplate).value = movie.id;
-  $_('.js-more-btn', elCloneMovieTemplate).addEventListener("click", (e) => {
-    elModalTitleHeading.value = this.value;
-  })
+  $_('.js-more-btn', elCloneMovieTemplate).setAttribute("data-bs-target", `#more-btn-${movie.id}`);
   $_('.js-bookmark-btn', elCloneMovieTemplate).value = movie.id;
+
+  // Modal Template
+  $_(".js-modal-window", elCloneModalTemplate).id = `more-btn-${movie.id}`;
+  $_(".js-modal-title", elCloneModalTemplate).textContent = movie.title;
+  $_(".js-modal-summary", elCloneModalTemplate).textContent = movie.summary;
+  $_(".js-modal-language", elCloneModalTemplate).textContent = movie.language;
+  
+  elCloneMovieTemplate.appendChild(elCloneModalTemplate);
 
   return elCloneMovieTemplate; // Return edited clone element
 };

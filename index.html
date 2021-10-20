@@ -80,27 +80,6 @@
 
   </main>
 
-  <!-- Modal Window -->
-
-  <div class="modal fade" id="modal-window" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title js-modal-title" id="modalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body js-modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- End Modal Window -->
-
   <footer class="footer">
     <div class="container">
       <h3>Bu footer</h3>
@@ -118,12 +97,31 @@
         <p class="card-text small m-0"><b>Rating: </b><span class="rating-span">7.5</span></p>
         <div class="mt-2 js-buttons-div">
           <a class="btn btn-success js-link-movie" href="#" target="blank">Watch</a>
-          <button type="button" class="btn btn-info js-more-btn" value="0" data-bs-toggle="modal"
-            data-bs-target="#modal-window">More</button>
+          <button type="button" class="btn btn-info js-more-btn" data-bs-toggle="modal" data-bs-target="">More</button>
           <button type="button" class="btn btn-primary js-bookmark-btn" value="0">Bookmark</button>
         </div>
       </div>
 
+  </template>
+
+  <template id="js-modal-template">
+    <div class="modal fade js-modal-window" id="" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title js-modal-title" id="modalLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body js-modal-body">
+            <p class="js-modal-summary"></p>
+            <p><b>Language:</b> <span class="js-modal-language"></span></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </template>
 
   <script src="./bootstrap/js/bootstrap.min.js"></script>

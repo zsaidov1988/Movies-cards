@@ -20,7 +20,10 @@ const elBookmarkList = $_(".js-bookmark-list"); // ul tag for bookmark list
 const elBookmarkClearButton = $_(".js-clear-bookmark-button"); // Button clear for bookmark
 const elBookmarkSection = $_(".js-section-bookmark");
 
+// =================== Calling Templates ==================================
+
 const elMovieTemplate = $_('#js-movie-template').content; // Template for movie cards
+const elModalTemplate = $_('#js-modal-template').content; // Template for modal window
 
 // Create new normalazed Array for movies array
 let normalazedMovies = movies.map((movie, i) => {
@@ -32,6 +35,8 @@ let normalazedMovies = movies.map((movie, i) => {
     imgUrl: `http://i3.ytimg.com/vi/${movie.ytid}/hqdefault.jpg`,
     rating: movie.imdb_rating,
     youtubeId: movie.ytid,
+    summary: movie.summary,
+    language: movie.language,
   };
 });
 
